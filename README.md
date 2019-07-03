@@ -9,8 +9,8 @@ It only is designed in bash script, and should work perfectly fine on any Unix
 like machine.
 
 ```
-git clone
-make install
+git clone https://github.com/SiwonP/bob.git
+make install (not implement yet)
 ```
 
 ## Usage
