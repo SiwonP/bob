@@ -1,4 +1,4 @@
-# # Bob
+# bob
 
 Bob is a small static generator, for those who wants to maintain a personal
 website or blog, all from the command line.
