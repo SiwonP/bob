@@ -10,7 +10,8 @@ like machine.
 
 ```
 git clone https://github.com/SiwonP/bob.git
-make install (not implement yet)
+cd bob
+make install
 ```
 
 ## Usage
@@ -59,5 +60,3 @@ bob -h
   to send the html files to a distant server.
 * Consider adding configuration files for some/all posts (if they
   need special javascript included e.g. MathJax, AJAX, sockets ...).
-* Design a makefile to install the script on the bin directory for an easy
-  access on the command line.
