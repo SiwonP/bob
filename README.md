@@ -1,4 +1,5 @@
 # bob
+![code size](https://img.shields.io/github/languages/code-size/SiwonP/bob.svg)
 
 Bob is a small static generator, for those who wants to maintain a personal
 website or blog, all from the command line.
