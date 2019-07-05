@@ -61,3 +61,6 @@ bob -h
   to send the html files to a distant server.
 * Consider adding configuration files for some/all posts (if they
   need special javascript included e.g. MathJax, AJAX, sockets ...).
+* Todo maybe change the drafts folder name because it contains the final version
+  of posts
+* Add a preview function for TRUE drafts being written
