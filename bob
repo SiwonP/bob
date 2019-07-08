@@ -483,14 +483,10 @@ usage()
     echo "To remove a post, just remove it from the draft folder and republish
     your blog"
     echo
-    echo "blog usage :"
-    echo "  -h  Display this help"
-    echo "  -i  initiate the blog"
-    echo "  -p  publish the blog"
-    echo "  -d  delete the posts"
-    echo "  -m  change mode of the blog (dark or light)"
-    echo "  -n  change the name of the blog (not implemented yet)"
-    echo "  -l  change the language of the blog (not implemented yet)"
+    echo "bob commands :"
+    echo "  help       display this help"
+    echo "  init       initiate the blog"
+    echo "  publish    publish the blog"
 }
 
 # while getopts ":ihpdm" opt; do
