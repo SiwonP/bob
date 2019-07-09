@@ -388,6 +388,9 @@ footer {
   margin-left: auto;
   font-size: 1.3vh;
 }
+footer span a {
+  color: #FF8608;
+}
 EOF
 
 cat > ./css/poststyle.dark.css << EOF
@@ -418,6 +421,9 @@ footer {
   margin-right: auto;
   margin-left: auto;
   font-size: 1.3vh;
+}
+footer span a {
+  color: #FF8608;
 }
 EOF
 

@@ -21,7 +21,7 @@ For a start, to generate an empty blog, type in the following in the directory
 where you want to put your blog in and follow the guide.
 
 ```
-bob -i
+bob init 
 ```
 
 It will create an `index.html` at the root of your folder, a `drafts` folder in
@@ -33,7 +33,7 @@ also be its title, and convert it to an html file, type the following command
 from the root :
 
 ```
-bob -p
+bob publish
 ```
 
 The publishing command `bob -p` will rep-ublish all the drafts, that is why
@@ -44,7 +44,7 @@ See the help for additional command, such as modification of the main configurat
 of the blog.
 
 ```
-bob -h
+bob help
 ```
 
 ## TODO
@@ -52,7 +52,6 @@ bob -h
 * Make a proper header/footer for the posts (e.g. adding links to social networks
   such as tweeter, github, dev.to ...).
 * Complete the CSS files.
-* Support long arguments on the command line for more readability.
 * Add a comment/like section ?
 * Adding a git component, and a server configuration to allow synchronisation.
   Maybe the drafts folder on the personal computer triggers changes on the git
