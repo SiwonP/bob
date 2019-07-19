@@ -4,7 +4,6 @@ _get_blog_name()
 {
     # Extract the configuration file
     conf=`cat .blog.conf`
-    #echo $conf
     name_regex="blog\:([a-zA-Z ]+)"
 
     # Echo the name of the blog, if any was given
@@ -15,6 +14,7 @@ _get_blog_name()
 
 _get_dark_param()
 {
+    # Extract the configuration file
     conf=`cat .blog.conf`
     dark_regex="dark:(y|n|N)"
 
@@ -25,6 +25,7 @@ _get_dark_param()
 
 _get_blog_lang()
 {
+    # Extract the configuration file
     conf=`cat .blog.conf`
     lang_regex="lang:([a-z]+)"
 
@@ -42,7 +43,7 @@ _add_header()
 
     css="../css/poststyle.css"
     if [[ $dark =~ "y" ]]; then
-      css="../css/poststyle.dark.css"
+        css="../css/poststyle.dark.css"
     fi
 
     cat > ./posts/$post_name.html << EOF
@@ -98,7 +99,7 @@ publish()
 
     # list all the drafts stored as most recently modified to
     # least recently modified, as it should appear on a blog
-    drafts=`ls -t ./drafts/`
+    drafts=`ls -t ./bases/`
     # echo $drafts
 
     # Tranform the string into an array
@@ -118,7 +119,7 @@ publish()
             # Append the names to the array
             posts_names+=(${BASH_REMATCH[1]})
         fi
-        _create_posts "./drafts/${list[i]}" "$blog_name" "$lang" "$dark"
+        _create_posts "./bases/${list[i]}" "$blog_name" "$lang" "$dark"
     done
 
     # function to update the index.html
@@ -174,7 +175,7 @@ _update_index()
 
     css="./css/indexstyle.css"
     if [[ $dark =~ "y" ]]; then
-      css="./css/indexstyle.dark.css"
+        css="./css/indexstyle.dark.css"
     fi
 
     cat > index.html << EOF
@@ -211,7 +212,7 @@ post_regex="([a-zA-Z\-]+)\.(md|markdown)"
 for (( i=0; i<${#drafts_list[@]}; i++ ));
 do
     # Retrieve the date of the last modification of the draft
-    date=$(_get_last_modif_date "./drafts/${drafts_list[i]}")
+    date=$(_get_last_modif_date "./bases/${drafts_list[i]}")
 
     # In case the next regex doesn't work, even though it's supposed to
     # work everytime
@@ -269,14 +270,15 @@ init()
     echo "Activate dark mode : (y/N)"
     read dark
     if [ -z $lang ]; then
-        dark=N
+        dark=n
     fi
     echo "dark:$dark" >> .blog.conf
     mkdir drafts
+    mkdir bases
     mkdir posts
     mkdir css
     _init_css
-    _index "$blog" "$lang"
+    _index "$blog" "$lang" "$dark"
 }
 
 _init_css()
@@ -433,6 +435,13 @@ _index()
 {
     title=$1
     lang=$2
+    dark=$3
+    css="./css/indexstyle.css"
+    
+    if [ $3 -eq "y" ]; then
+        css="./css/indexstyle.dark.css"
+    fi
+
     # Create the first index file, empty of any posts
     cat > index.html << EOF
 <!DOCTYPE html>
@@ -495,38 +504,13 @@ usage()
     echo "  publish    publish the blog"
 }
 
-# while getopts ":ihpdm" opt; do
-#     case ${opt} in
-#         i )
-#             init
-#             ;;
-#         p )
-#             publish
-#             ;;
-#         h )
-#             usage
-#             ;;
-#         m )
-#             change_mode
-#             ;;
-#         d )
-#             delete_posts
-#             ;;
-#         \? )
-#             usage
-#             ;;
-#         : )
-#             usage
-#             ;;
-#     esac
-# done
 
 if [[ $# -eq 0 ]]; then
-  usage
+    usage
 elif [[ "$1" == "init" ]]; then
-  init
+    init
 elif [[ "$1" == "publish" ]]; then
-  publish
+    publish
 elif [[ "$1" == "help" ]]; then
-  usage
+    usage
 fi
