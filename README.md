@@ -24,11 +24,12 @@ where you want to put your blog in and follow the guide.
 bob init 
 ```
 
-It will create an `index.html` at the root of your folder, a `drafts` folder in
+It will create an `index.html` at the root of your folder, a `bases` folder in
 which you will store all the posts you want to publish and a `posts` folder
-where the resulting posts in html will be stored.
+where the resulting posts in html will be stored, and a `drafts` folder where to
+put drafts of posts before publishing them.
 
-To write a post, create a markdown file in the `drafts` folder whose name will
+To write a post, create a markdown file in the `bases` folder whose name will
 also be its title, and convert it to an html file, type the following command
 from the root :
 
@@ -36,7 +37,7 @@ from the root :
 bob publish
 ```
 
-The publishing command `bob -p` will rep-ublish all the drafts, that is why
+The publishing command will rep-ublish all the drafts, that is why
 anytime you want a post removed, delete in from the drafts folder and re-publish
 your blog.
 
@@ -60,6 +61,4 @@ bob help
   to send the html files to a distant server.
 * Consider adding configuration files for some/all posts (if they
   need special javascript included e.g. MathJax, AJAX, sockets ...).
-* Todo maybe change the drafts folder name because it contains the final version
-  of posts
 * Add a preview function for TRUE drafts being written
