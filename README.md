@@ -62,3 +62,6 @@ bob help
 * Consider adding configuration files for some/all posts (if they
   need special javascript included e.g. MathJax, AJAX, sockets ...).
 * Add a preview function for TRUE drafts being written
+* Take into account the headers possibilities of multimarkdown, which could
+  replace the self header writing process and include other features such as
+  Mathjax
