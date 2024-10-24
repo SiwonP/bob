@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+usage()
+{
+    echo
+    echo "This script is made for those who want to blog and are also addicted to the command line"
+    echo
+    echo "Run the initiation for a start. After that, place all your future blog
+    posts, written in markdown (.md or .markdown), in the draft folder."
+    echo
+    echo "Once you publish your blog, all the drafts in the said folder will be
+    converted to html, added to the posts folder and append to the index.html"
+    echo
+    echo "To remove a post, just remove it from the draft folder and republish
+    your blog"
+    echo
+    echo "bob commands :"
+    echo "  help       display this help"
+    echo "  init       initiate the blog"
+    echo "  publish    publish the blog"
+}
+
+
+init()
+{
+    echo Name of the author of the blog :
+    read author
+    echo "author:$author" > .blog.conf
+    echo Name of the blog :
+    read blog
+    echo "blog:$blog" >> .blog.conf
+    echo "Language of the blog : (en)"
+    read lang
+    if [ -z $lang ]; then
+        lang=en
+    fi
+    echo "lang:$lang" >> .blog.conf
+    echo "Activate dark mode : (y/N)"
+    read dark
+    if [ -z $dark ]; then
+        dark=n
+    fi
+    echo "dark:$dark" >> .blog.conf
+    mkdir drafts
+    mkdir bases
+    mkdir posts
+    mkdir css
+    _init_css
+    _index "$blog" "$lang" "$dark"
+}
+
+
+
+if [[ $# -eq 0 ]]; then
+    usage
+elif [[ "$1" == "help" ]]; then
+    usage
+elif [[ "$1" == "usage" ]]; then
+    usage
+elif [[ "$1" == "init" ]]; then
+    init
+elif [[ "$1" == "publish" ]]; then
+    publish
+elif [[ "$1" == "help" ]]; then
+    usage
+fi
