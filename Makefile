@@ -10,6 +10,7 @@ uninstall:
 	rm /usr/local/bin/bob2
 	rm -r /usr/local/lib/bob
 
+.PHONY: test  # Declare 'test' as a phony target
 
 test:
-	/bin/sh ./test/test.sh
+	bash ./test/test.sh
