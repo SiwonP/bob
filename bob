@@ -89,7 +89,7 @@ _get_last_modif_date()
 
 publish()
 {
-    delete_posts
+    # delete_posts
 
     # Collect all configuration parameters so that the regex are only evaluted
     # once per publication. Done to improve the speed of the publication
@@ -119,7 +119,7 @@ publish()
             # Append the names to the array
             posts_names+=(${BASH_REMATCH[1]})
         fi
-        _create_posts "./bases/${list[i]}" "$blog_name" "$lang" "$dark"
+        _create_posts "./draft/${list[i]}" "$blog_name" "$lang" "$dark"
     done
 
     # function to update the index.html
@@ -269,7 +269,7 @@ init()
     echo "lang:$lang" >> .blog.conf
     echo "Activate dark mode : (y/N)"
     read dark
-    if [ -z $lang ]; then
+    if [ -z $dark ]; then
         dark=n
     fi
     echo "dark:$dark" >> .blog.conf
@@ -438,7 +438,7 @@ _index()
     dark=$3
     css="./css/indexstyle.css"
     
-    if [ $3 -eq "y" ]; then
+    if [[ $dark -eq "y" ]]; then
         css="./css/indexstyle.dark.css"
     fi
 
