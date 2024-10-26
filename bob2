@@ -16,7 +16,7 @@ usage()
     echo
     echo "bob commands :"
     echo "  help       display this help"
-    echo "  init       initiate the blog"
+    echo "  init       initiate a blog"
     echo "  publish    publish the blog"
 }
 
@@ -25,31 +25,60 @@ init()
 {
     echo Name of the author of the blog :
     read author
-    echo "author:$author" > .blog.conf
+    echo "author=$author" > .blog.conf
     echo Name of the blog :
     read blog
-    echo "blog:$blog" >> .blog.conf
-    echo "Language of the blog : (en)"
+    echo "blog=$blog" >> .blog.conf
+    echo "Language of the blog : [en]"
     read lang
     if [ -z $lang ]; then
         lang=en
     fi
-    echo "lang:$lang" >> .blog.conf
+    echo "lang=$lang" >> .blog.conf
     echo "Activate dark mode : (y/N)"
     read dark
     if [ -z $dark ]; then
         dark=n
     fi
-    echo "dark:$dark" >> .blog.conf
+    echo "dark=$dark" >> .blog.conf
     mkdir drafts
-    mkdir bases
+    # mkdir templates
     mkdir posts
-    mkdir css
-    _init_css
-    _index "$blog" "$lang" "$dark"
+    # mkdir css
+    # _init_css
+    # _index "$blog" "$lang" "$dark"
 }
 
+update_index()
+{
+    ls -t ./posts | awk '
+        BEGIN {
+            print "<ul>"
+        } 
+        {
+            ref=$0
+            gsub(".html","",ref)
+            gsub(/[_-]/, " ", ref)
+            print "<li><a href=\"./posts/" $0 "\">" ref "</a></li>"
+        } 
+        END { 
+            print "</ul>"
+        }' 
+}
 
+publish()
+{
+    post=$(awk -f lib/markdown.awk ./drafts/$1.md)
+    template="./lib/template/post.html"
+    awk -v content="$post" '{gsub(/{{article}}/, content); print}' "$template" > "./posts/$1.html"
+    mv ./drafts/$1.md ./drafts/published/$1.md
+}
+
+unpublish()
+{
+    rm ./posts/$1.html
+    mv ./drafts/published/$1.md ./drafts/$1.md
+}
 
 if [[ $# -eq 0 ]]; then
     usage
@@ -60,7 +89,17 @@ elif [[ "$1" == "usage" ]]; then
 elif [[ "$1" == "init" ]]; then
     init
 elif [[ "$1" == "publish" ]]; then
-    publish
+    if [[ $# -eq 1 ]]; then
+        echo "Usage : bob publish <draft_name>"
+    else 
+        publish $2
+    fi
+elif [[ "$1" == "unpublish" ]]; then
+    if [[ $# -eq 1 ]]; then
+        echo "Usage : bob unpublish <post_name>"
+    else 
+        unpublish $2
+    fi
 elif [[ "$1" == "help" ]]; then
     usage
 fi
