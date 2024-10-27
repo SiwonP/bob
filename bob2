@@ -15,9 +15,10 @@ usage()
     your blog"
     echo
     echo "bob commands :"
-    echo "  help       display this help"
-    echo "  init       initiate a blog"
-    echo "  publish    publish the blog"
+    echo "  help                display this help"
+    echo "  init                initiate a blog"
+    echo "  publish  <post>     publish the post"
+    echo "  unpublish <post>    unpublish the post"
 }
 
 
@@ -51,7 +52,7 @@ init()
 
 update_index()
 {
-    ls -t ./posts | awk '
+    posts=$(ls -t ./posts | awk '
         BEGIN {
             print "<ul>"
         } 
@@ -63,7 +64,11 @@ update_index()
         } 
         END { 
             print "</ul>"
-        }' 
+        }')
+
+    template="./lib/template/index.html"
+    awk -v content="$posts" '{gsub(/{{articles}}/, content); print}' "$template" > "./index.html"
+
 }
 
 publish()
@@ -72,12 +77,26 @@ publish()
     template="./lib/template/post.html"
     awk -v content="$post" '{gsub(/{{article}}/, content); print}' "$template" > "./posts/$1.html"
     mv ./drafts/$1.md ./drafts/published/$1.md
+
+    update_index
 }
 
 unpublish()
 {
     rm ./posts/$1.html
     mv ./drafts/published/$1.md ./drafts/$1.md
+
+    update_index
+}
+
+unpublish_all()
+{
+    rm ./posts/*
+}
+
+deploy()
+{
+    scp 
 }
 
 if [[ $# -eq 0 ]]; then
@@ -91,7 +110,7 @@ elif [[ "$1" == "init" ]]; then
 elif [[ "$1" == "publish" ]]; then
     if [[ $# -eq 1 ]]; then
         echo "Usage : bob publish <draft_name>"
-    else 
+    else
         publish $2
     fi
 elif [[ "$1" == "unpublish" ]]; then
@@ -100,6 +119,8 @@ elif [[ "$1" == "unpublish" ]]; then
     else 
         unpublish $2
     fi
+elif [[ "$1" == "deploy" ]]; then
+    deploy
 elif [[ "$1" == "help" ]]; then
     usage
 fi
