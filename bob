@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ -z "${BOB_LIB}" ]; then 
+    BOB_LIB=/usr/local/lib/bob
+else
+    BOB_LIB=./lib
+fi
+
 usage()
 {
     echo
@@ -66,15 +72,15 @@ update_index()
             print "</ul>"
         }')
 
-    template="./lib/template/index.html"
+    template="${BOB_LIB}/template/index.html"
     awk -v content="$posts" '{gsub(/{{articles}}/, content); print}' "$template" > "./index.html"
 
 }
 
 publish()
 {
-    post=$(awk -f lib/markdown.awk ./drafts/$1.md)
-    template="./lib/template/post.html"
+    post=$(awk -f ${BOB_LIB}/markdown.awk ./drafts/$1.md)
+    template="${BOB_LIB}/template/post.html"
     awk -v content="$post" '{gsub(/{{article}}/, content); print}' "$template" > "./posts/$1.html"
     mv ./drafts/$1.md ./drafts/published/$1.md
 
@@ -92,11 +98,12 @@ unpublish()
 unpublish_all()
 {
     rm ./posts/*
+    mv ./drafts/published/* ./drafts/
 }
 
 deploy()
 {
-    scp 
+    echo "TODO"
 }
 
 if [[ $# -eq 0 ]]; then

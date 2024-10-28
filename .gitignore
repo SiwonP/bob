@@ -4,4 +4,4 @@ css
 bash
 posts
 *.conf
-index.html
+./index.html
